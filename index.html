@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SENA Connect - My Social Network: interactive English workshop profile for SENA apprentices." />
+  <meta name="theme-color" content="#39A900" />
+  <title>SENA Connect · My Social Network</title>
+
+  <!-- Favicon inline (SVG) para no depender de archivos externos -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2339A900'/%3E%3Ctext x='50%25' y='58%25' font-size='30' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'%3ESC%3C/text%3E%3C/svg%3E" />
+
+  <!-- Tipografía moderna (si no hay internet, se usa la fuente del sistema) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =====================================================================
+       1. VARIABLES DE DISEÑO (paleta institucional SENA + tokens)
+       ===================================================================== */
+    :root {
+      --sena-green: #39A900;
+      --sena-green-dark: #2b7f00;
+      --sena-green-soft: #eaf6e1;
+      --navy: #00304D;
+      --navy-2: #0b4a6f;
+      --bg: #f2f5f8;
+      --surface: #ffffff;
+      --text: #1d2939;
+      --muted: #667085;
+      --border: #e4e7ec;
+      --danger: #d92d20;
+      --warning: #f79009;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --shadow-sm: 0 1px 2px rgba(16, 24, 40, .06), 0 1px 3px rgba(16, 24, 40, .08);
+      --shadow-md: 0 8px 24px -6px rgba(16, 24, 40, .12);
+      --shadow-lg: 0 24px 48px -12px rgba(16, 24, 40, .25);
+      --font-head: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --header-h: 72px;
+    }
+
+    /* =====================================================================
+       2. RESET Y BASE
+       ===================================================================== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+    h1, h2, h3 { font-family: var(--font-head); margin: 0; line-height: 1.25; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    .icon { width: 1.15em; height: 1.15em; flex-shrink: 0; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+    :focus-visible { outline: 3px solid rgba(57, 169, 0, .45); outline-offset: 2px; }
+
+    /* =====================================================================
+       3. HEADER / BARRA SUPERIOR
+       ===================================================================== */
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(255, 255, 255, .88);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar__inner {
+      max-width: 1240px; margin: 0 auto; padding: 12px 20px;
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+      min-height: var(--header-h);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+    .brand__logo {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--sena-green), var(--sena-green-dark));
+      color: #fff; display: grid; place-items: center;
+      font-family: var(--font-head); font-weight: 700; font-size: 1.05rem;
+      box-shadow: 0 6px 14px -4px rgba(57, 169, 0, .55);
+    }
+    .brand__name { font-family: var(--font-head); font-weight: 700; font-size: 1.2rem; color: var(--navy); }
+    .brand__name span { color: var(--sena-green); }
+    .brand__tag { display: block; font-size: .75rem; color: var(--muted); font-weight: 500; }
+
+    /* Identificación institucional: Name / SENA / Ficha */
+    .id-chips { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; justify-content: flex-end; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 12px; border-radius: 999px;
+      background: var(--bg); border: 1px solid var(--border);
+      font-size: .82rem; white-space: nowrap; max-width: 280px;
+    }
+    .chip b { color: var(--muted); font-weight: 600; }
+    .chip span { overflow: hidden; text-overflow: ellipsis; font-weight: 600; color: var(--navy); }
+    .chip .icon { color: var(--sena-green); }
+
+    /* Botones */
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 9px 16px; border-radius: var(--radius-sm);
+      border: 1px solid var(--border); background: var(--surface);
+      font-weight: 600; font-size: .88rem; cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+    .btn:active { transform: translateY(0); }
+    .btn--primary { background: var(--sena-green); border-color: var(--sena-green); color: #fff; }
+    .btn--primary:hover { background: var(--sena-green-dark); }
+    .btn--navy { background: var(--navy); border-color: var(--navy); color: #fff; }
+    .btn--navy:hover { background: var(--navy-2); }
+    .btn--ghost-danger { color: var(--danger); }
+    .btn--ghost-danger:hover { background: #fef3f2; border-color: #fecdca; }
+    .btn--sm { padding: 6px 12px; font-size: .8rem; }
+
+    /* =====================================================================
+       4. LAYOUT PRINCIPAL
+       ===================================================================== */
+    .page { max-width: 1240px; margin: 0 auto; padding: 24px 20px 48px; }
+    .layout { display: grid; grid-template-columns: 360px 1fr; gap: 24px; align-items: start; }
+
+    .card {
+      background: var(--surface); border-radius: var(--radius-lg);
+      border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+    }
+    .part-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      color: var(--sena-green-dark); background: var(--sena-green-soft);
+      padding: 4px 10px; border-radius: 999px;
+    }
+    .section-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+    .section-head h2 { font-size: 1.15rem; color: var(--navy); margin-top: 6px; }
+    .section-head p { margin: 2px 0 0; color: var(--muted); font-size: .85rem; }
+
+    /* =====================================================================
+       5. TARJETA DE PERFIL (Part 1 + Part 2)
+       ===================================================================== */
+    .profile { overflow: hidden; }
+    /* Portada sobria: un solo color institucional con textura sutil */
+    .profile__cover {
+      height: 110px; position: relative;
+      background:
+        radial-gradient(circle, rgba(255,255,255,.12) 1.5px, transparent 2px) 0 0 / 20px 20px,
+        var(--navy);
+    }
+
+    /* Avatar circular + badge de estado */
+    .avatar-wrap { position: relative; width: 136px; height: 136px; margin: -68px auto 0; }
+    .avatar {
+      width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+      border: 5px solid var(--surface);
+      box-shadow: 0 0 0 3px var(--sena-green), var(--shadow-md);
+      background: var(--sena-green-soft);
+    }
+    .status-badge {
+      position: absolute; right: 10px; bottom: 10px;
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 4px solid var(--surface); background: var(--sena-green);
+    }
+    .status-badge.is-online { background: #12b76a; }
+    .status-badge.is-busy { background: var(--danger); }
+    .status-badge.is-away { background: var(--warning); }
+    .status-badge.is-online::after {
+      content: ''; position: absolute; inset: -4px; border-radius: 50%;
+      border: 2px solid #12b76a; animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0% { transform: scale(1); opacity: .8; } 100% { transform: scale(1.8); opacity: 0; } }
+
+    .avatar-btn {
+      position: absolute; left: 4px; bottom: 6px;
+      width: 36px; height: 36px; border-radius: 50%;
+      display: grid; place-items: center; cursor: pointer;
+      background: var(--navy); color: #fff; border: 3px solid var(--surface);
+      transition: transform .15s;
+    }
+    .avatar-btn:hover { transform: scale(1.08); }
+
+    .profile__body { padding: 14px 24px 24px; text-align: center; }
+    .profile__name { font-size: 1.4rem; color: var(--navy); margin-top: 8px; word-break: break-word; }
+    .profile__occupation { color: var(--sena-green-dark); font-weight: 600; font-size: .92rem; margin: 4px 0 0; }
+    .status-text { display: inline-flex; align-items: center; gap: 6px; font-size: .78rem; color: var(--muted); margin-top: 8px; }
+    .status-text i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    .profile__edit-wrap { margin-top: 12px; }
+
+    .profile__stats {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+      margin: 18px 0 4px; padding: 12px 0;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .profile__stats strong { display: block; font-family: var(--font-head); color: var(--navy); font-size: 1.05rem; }
+    .profile__stats span { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+
+    /* Lista de información personal */
+    .info { text-align: left; margin-top: 18px; }
+    .info .part-label { margin-bottom: 10px; }
+    .info-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+    .info-item {
+      display: grid; grid-template-columns: 36px 1fr; gap: 10px; align-items: center;
+      padding: 8px; border-radius: var(--radius-sm); transition: background .15s;
+    }
+    .info-item:hover { background: var(--bg); }
+    .info-item__icon {
+      width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center;
+      background: var(--sena-green-soft); color: var(--sena-green-dark);
+    }
+    .info-item__label { font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; }
+    .info-item__value { font-weight: 500; font-size: .92rem; word-break: break-word; }
+    .info-item__value a { color: var(--navy); text-decoration: none; }
+    .info-item__value a:hover { text-decoration: underline; }
+    .pill-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+    .pill { font-size: .76rem; font-weight: 600; padding: 2px 10px; border-radius: 999px; background: var(--bg); border: 1px solid var(--border); color: var(--navy); }
+
+    /* =====================================================================
+       6. PART 3 - INTERESES (feed de tarjetas)
+       ===================================================================== */
+    .feed { display: grid; gap: 24px; }
+    .welcome { padding: 22px 24px; display: flex; gap: 18px; align-items: center; }
+    .welcome__emoji { font-size: 2.2rem; }
+    .welcome h1 { font-size: 1.3rem; color: var(--navy); }
+    .welcome p { margin: 4px 0 0; color: var(--muted); font-size: .9rem; }
+
+    /* Selector de perfiles */
+    .switcher { padding: 14px 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+    .switcher__title { font-size: .78rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-right: 4px; }
+    .switcher__list { display: flex; gap: 10px; flex-wrap: wrap; flex: 1; }
+    .profile-tab {
+      display: flex; align-items: center; gap: 10px; min-width: 0;
+      padding: 6px 14px 6px 6px; border-radius: 999px; cursor: pointer;
+      border: 1px solid var(--border); background: var(--surface); text-align: left;
+      transition: border-color .15s, background .15s, box-shadow .15s;
+    }
+    .profile-tab:hover { border-color: var(--sena-green); }
+    .profile-tab img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; background: var(--sena-green-soft); }
+    .profile-tab strong { display: block; font-size: .86rem; color: var(--navy); line-height: 1.2; }
+    .profile-tab small { display: block; font-size: .72rem; color: var(--muted); max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .profile-tab[aria-pressed="true"] { border-color: var(--sena-green); background: var(--sena-green-soft); box-shadow: 0 0 0 1px var(--sena-green); }
+
+    .interests { padding: 24px; }
+    .interests-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+    /* Tarjetas en un único color de acento (verde SENA) para una paleta sencilla */
+    .interest {
+      position: relative; padding: 18px; border-radius: var(--radius-md);
+      border: 1px solid var(--border); background: var(--surface);
+      display: flex; flex-direction: column; gap: 10px;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s;
+    }
+    .interest:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--sena-green); }
+    .interest__head { display: flex; align-items: center; gap: 12px; }
+    .interest__icon {
+      width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
+      color: var(--sena-green-dark); background: var(--sena-green-soft);
+    }
+    .interest__icon .icon { width: 22px; height: 22px; }
+    .interest__title { font-size: 1rem; color: var(--navy); }
+    .interest__es { font-size: .74rem; color: var(--muted); }
+    .interest__text { margin: 0; font-size: .92rem; color: var(--text); }
+    .interest__text.is-empty { color: var(--muted); font-style: italic; }
+    .interest__foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font-size: .74rem; color: var(--muted); }
+    .interest__edit {
+      border: 0; background: none; color: var(--sena-green-dark); font-weight: 600; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 4px; font-size: .78rem; padding: 4px;
+    }
+
+    .footer-note { text-align: center; color: var(--muted); font-size: .8rem; margin-top: 8px; }
+
+    /* =====================================================================
+       7. MODAL DE EDICIÓN (<dialog>)
+       ===================================================================== */
+    .modal {
+      width: min(880px, calc(100% - 24px)); max-height: calc(100vh - 32px);
+      padding: 0; border: 0; border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg); background: var(--surface); color: var(--text);
+    }
+    .modal::backdrop { background: rgba(0, 48, 77, .55); backdrop-filter: blur(3px); }
+    .modal[open] { animation: modalIn .25s ease; }
+    @keyframes modalIn { from { opacity: 0; transform: translateY(16px) scale(.98); } to { opacity: 1; transform: none; } }
+    .modal form { display: flex; flex-direction: column; max-height: calc(100vh - 32px); }
+    .modal__head {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 18px 24px; border-bottom: 1px solid var(--border);
+    }
+    .modal__head h2 { font-size: 1.15rem; color: var(--navy); }
+    .icon-btn {
+      width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--surface); display: grid; place-items: center; cursor: pointer;
+    }
+    .icon-btn:hover { background: var(--bg); }
+    .modal__body { padding: 20px 24px; overflow-y: auto; display: grid; gap: 22px; }
+    .modal__foot {
+      display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap;
+      padding: 14px 24px; border-top: 1px solid var(--border); background: #fafbfc;
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+
+    fieldset { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px 18px 18px; margin: 0; }
+    legend { padding: 0 8px; font-family: var(--font-head); font-weight: 600; color: var(--navy); font-size: .95rem; }
+    .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .form-grid--3 { grid-template-columns: repeat(3, 1fr); }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field--full { grid-column: 1 / -1; }
+    .field label { font-size: .82rem; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 6px; }
+    .field label small { color: var(--muted); font-weight: 400; }
+    .field input, .field select, .field textarea {
+      width: 100%; padding: 10px 12px; border-radius: var(--radius-sm);
+      border: 1px solid #d0d5dd; background: #fff; transition: border-color .15s, box-shadow .15s;
+    }
+    .field textarea { resize: vertical; min-height: 78px; line-height: 1.45; }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: none; border-color: var(--sena-green); box-shadow: 0 0 0 4px rgba(57, 169, 0, .15);
+    }
+    .field input:user-invalid, .field textarea:user-invalid { border-color: var(--danger); }
+    .hint { font-size: .74rem; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; }
+    .hint.is-warn { color: var(--warning); }
+    .hint.is-ok { color: var(--sena-green-dark); }
+
+    /* Subida de foto en el modal */
+    .photo-editor { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+    .photo-editor img {
+      width: 108px; height: 108px; border-radius: 50%; object-fit: cover;
+      border: 4px solid var(--sena-green-soft); box-shadow: 0 0 0 2px var(--sena-green);
+    }
+    .photo-editor__actions { display: flex; flex-direction: column; gap: 8px; }
+    .photo-editor__actions p { margin: 0; font-size: .78rem; color: var(--muted); }
+    .file-label { position: relative; overflow: hidden; }
+    .file-label input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .dropzone.is-drag img { box-shadow: 0 0 0 4px var(--sena-green); transform: scale(1.04); }
+
+    /* =====================================================================
+       8. TOAST (notificaciones)
+       ===================================================================== */
+    .toast-stack { position: fixed; bottom: 20px; right: 20px; display: grid; gap: 10px; z-index: 100; }
+    .toast {
+      display: flex; align-items: center; gap: 10px; min-width: 240px; max-width: 360px;
+      padding: 12px 16px; border-radius: 12px; background: var(--navy); color: #fff;
+      box-shadow: var(--shadow-lg); font-size: .88rem; font-weight: 500;
+      animation: toastIn .3s ease;
+    }
+    .toast--success { background: var(--sena-green-dark); }
+    .toast--error { background: var(--danger); }
+    .toast.is-leaving { animation: toastOut .3s ease forwards; }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+    @keyframes toastOut { to { opacity: 0; transform: translateX(30px); } }
+
+    /* Encabezado visible SOLO al imprimir */
+    .print-only { display: none; }
+
+    /* =====================================================================
+       9. RESPONSIVE
+       ===================================================================== */
+    @media (max-width: 1080px) {
+      .id-chips { order: 3; flex-basis: 100%; justify-content: flex-start; }
+      .actions { margin-left: auto; }
+    }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .profile { position: static; }
+    }
+    @media (max-width: 640px) {
+      .topbar__inner { padding: 10px 14px; gap: 10px; }
+      .actions { width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); }
+      .btn__label { display: none; }
+      .btn { padding: 10px; }
+      .page { padding: 16px 12px 40px; }
+      .form-grid, .form-grid--3 { grid-template-columns: 1fr; }
+      .welcome { flex-direction: column; text-align: center; }
+      .interests { padding: 18px; }
+      .modal__body { padding: 16px; }
+      .chip { max-width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+
+    /* =====================================================================
+       10. ESTILOS DE IMPRESIÓN → Infografía PDF (A4)
+       ===================================================================== */
+    @media print {
+      @page { size: A4; margin: 10mm; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      body { background: #fff; font-size: 10.5pt; }
+      .no-print, .modal, .toast-stack, .avatar-btn, .interest__edit, .welcome { display: none !important; }
+      .print-only { display: block; }
+      .topbar { position: static; background: #fff; border-bottom: 3px solid var(--sena-green); backdrop-filter: none; }
+      .topbar__inner { padding: 0 0 8px; min-height: auto; }
+      .id-chips { justify-content: flex-end; }
+      .chip { background: var(--sena-green-soft); border-color: transparent; }
+      .page { padding: 10px 0 0; max-width: none; }
+      .layout { grid-template-columns: 58mm 1fr; gap: 5mm; }
+      .card { box-shadow: none; }
+      .profile { position: static; }
+      .profile__cover { height: 80px; }
+      .avatar-wrap { width: 110px; height: 110px; margin-top: -55px; }
+      .status-badge::after { display: none; }
+      .profile__body { padding: 8px 14px 14px; }
+      .info-item { padding: 4px; }
+      .interests { padding: 12px; }
+      .interests .section-head { margin-bottom: 8px; }
+      .interests-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .interest { padding: 10px; gap: 6px; break-inside: avoid; page-break-inside: avoid; }
+      .interest:hover { transform: none; }
+      .interest__icon { width: 32px; height: 32px; }
+      .interest__icon .icon { width: 17px; height: 17px; }
+      .interest__text { font-size: 8.5pt; line-height: 1.4; }
+      .info-list { gap: 0; }
+      .topbar__inner { flex-wrap: nowrap; }
+      .id-chips { order: 0; flex-basis: auto; flex-wrap: wrap; gap: 4px; }
+      .chip { padding: 3px 8px; font-size: 8pt; max-width: 200px; }
+      .profile__cover .part-label, .interest__foot, .footer-note, .profile__stats, .brand__tag { display: none !important; }
+      .pill { font-size: 7.5pt; padding: 1px 7px; }
+      .pill-list { gap: 3px; }
+      .profile__stats strong { font-size: .9rem; }
+      .profile__stats span { font-size: 6.5pt; letter-spacing: 0; }
+      .info-item { grid-template-columns: 26px 1fr; gap: 8px; padding: 3px 2px; }
+      .info-item__icon { width: 26px; height: 26px; border-radius: 7px; }
+      .info { margin-top: 10px; }
+      .profile__stats { margin: 10px 0 0; padding: 6px 0; }
+      .profile__name { font-size: 1.15rem; }
+      .profile__bio { font-size: 8.5pt; margin-top: 6px; }
+      .info-item__value { font-size: 9pt; }
+      .footer-note { margin-top: 6px; }
+      a { color: inherit !important; text-decoration: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===================================================================
+       HEADER / BARRA SUPERIOR
+       =================================================================== -->
+  <header class="topbar" role="banner">
+    <div class="topbar__inner">
+      <a class="brand" href="#" aria-label="SENA Connect home">
+        <div class="brand__logo" aria-hidden="true">SC</div>
+        <div>
+          <div class="brand__name">SENA <span>Connect</span></div>
+          <span class="brand__tag">My Social Network · English Workshop</span>
+        </div>
+      </a>
+
+      <!-- Identificación institucional -->
+      <div class="id-chips" aria-label="Institutional identification">
+        <div class="chip" title="Apprentice name"><span data-icon="user"></span><b>Name:</b> <span id="chipName">—</span></div>
+        <div class="chip" title="Institution"><span data-icon="building"></span><b>SENA:</b> <span id="chipInstitution">—</span></div>
+        <div class="chip" title="Training group number"><span data-icon="id"></span><b>Ficha:</b> <span id="chipFicha">—</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================================================================
+       CONTENIDO PRINCIPAL (Modo Vista / Infografía)
+       =================================================================== -->
+  <main class="page" id="main">
+    <!-- Selector de perfiles: permite cambiar entre los 2 perfiles guardados -->
+    <section class="card switcher no-print" aria-label="Profile switcher">
+      <span class="switcher__title">Profiles</span>
+      <div class="switcher__list" id="profileSwitcher" role="group" aria-label="Choose a profile"></div>
+    </section>
+
+    <div class="layout">
+
+      <!-- ===== Tarjeta de perfil (foto + información personal) ===== -->
+      <aside class="card profile" aria-labelledby="profileName">
+        <div class="profile__cover"></div>
+
+        <!-- Avatar circular con badge de estado -->
+        <div class="avatar-wrap">
+          <img class="avatar" id="avatarImg" alt="Profile photo" width="136" height="136" />
+          <span class="status-badge is-online" id="statusBadge" role="img" aria-label="Status: Available"></span>
+          <label class="avatar-btn" title="Change photo (Cambiar foto)">
+            <span data-icon="camera"></span>
+            <span class="sr-only">Upload profile photo</span>
+            <input type="file" id="quickPhotoInput" accept="image/*" hidden />
+          </label>
+        </div>
+
+        <div class="profile__body">
+          <h2 class="profile__name" id="profileName">—</h2>
+          <p class="profile__occupation" id="profileOccupation">—</p>
+          <div class="status-text"><i id="statusDot"></i><span id="statusText">Available</span></div>
+          <div class="profile__edit-wrap no-print">
+            <button type="button" class="btn btn--navy btn--sm" id="btnEditProfile" title="Editar Perfil">
+              <span data-icon="edit"></span> Editar Perfil
+            </button>
+          </div>
+
+          <div class="profile__stats" aria-label="Profile summary">
+            <div><strong id="statAge">—</strong><span>Years old</span></div>
+            <div><strong id="statLangs">—</strong><span>Languages</span></div>
+            <div><strong id="statInterests">—</strong><span>Interests</span></div>
+          </div>
+
+          <!-- Part 1: Personal Information -->
+          <section class="info" aria-labelledby="infoTitle">
+            <span class="part-label" id="infoTitle">Part 1 · Personal Information</span>
+            <ul class="info-list" id="personalList"></ul>
+          </section>
+        </div>
+      </aside>
+
+      <!-- ===== Columna derecha: feed ===== -->
+      <div class="feed">
+        <section class="card welcome no-print" aria-label="Welcome">
+          <div class="welcome__emoji" aria-hidden="true">👋</div>
+          <div>
+            <h1 id="welcomeTitle">Hello! Welcome to my profile.</h1>
+            <p>This is my social network profile for the SENA English workshop. Click <strong>Editar Perfil</strong> to update your information, photo and interests. Remember to write <strong>complete sentences in English</strong>.</p>
+          </div>
+        </section>
+
+        <!-- ===== PART 3: Interests ===== -->
+        <section class="card interests" aria-labelledby="interestsTitle">
+          <div class="section-head">
+            <div>
+              <span class="part-label">Part 3 · Interests</span>
+              <h2 id="interestsTitle">My Interests &amp; Likes</h2>
+              <p>Complete sentences in English about the things I enjoy.</p>
+            </div>
+            <button type="button" class="btn btn--navy btn--sm no-print" id="btnEditInterests" title="Editar intereses">
+              <span data-icon="edit"></span> Edit Interests
+            </button>
+          </div>
+          <div class="interests-grid" id="interestsGrid"></div>
+        </section>
+
+        <p class="footer-note" id="lastUpdated"></p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===================================================================
+       MODO EDICIÓN (Modal <dialog>)
+       =================================================================== -->
+  <dialog class="modal" id="editModal" aria-labelledby="modalTitle">
+    <form id="profileForm" novalidate>
+      <div class="modal__head">
+        <div>
+          <span class="part-label">Edit mode</span>
+          <h2 id="modalTitle">Editar Perfil · Edit Profile</h2>
+        </div>
+        <button type="button" class="icon-btn" id="btnCloseModal" aria-label="Close (Cerrar)">
+          <span data-icon="close"></span>
+        </button>
+      </div>
+
+      <div class="modal__body">
+        <div id="modalSectionProfile" style="display:grid; gap:22px;">
+          <!-- Identificación institucional -->
+          <fieldset>
+            <legend>SENA Identification</legend>
+            <div class="form-grid form-grid--3">
+              <div class="field">
+                <label for="f-institution">SENA <small>(Centro / Regional)</small></label>
+                <input id="f-institution" name="institution" type="text" maxlength="80" required />
+              </div>
+              <div class="field">
+                <label for="f-ficha">Ficha <small>(No.)</small></label>
+                <input id="f-ficha" name="ficha" type="text" inputmode="numeric" pattern="[0-9A-Za-z\-]{3,20}" maxlength="20" required />
+              </div>
+              <div class="field">
+                <label for="f-status">Status <small>(Estado)</small></label>
+                <select id="f-status" name="status">
+                  <option value="online">🟢 Available</option>
+                  <option value="busy">🔴 Busy</option>
+                  <option value="away">🟠 Away</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Foto -->
+          <fieldset>
+            <legend>Profile Photo</legend>
+            <div class="photo-editor dropzone" id="dropzone">
+              <img id="photoPreview" alt="Photo preview" width="108" height="108" />
+              <div class="photo-editor__actions">
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                  <label class="btn btn--primary btn--sm file-label">
+                    <span data-icon="camera"></span> Upload photo
+                    <input type="file" id="photoInput" accept="image/*" />
+                  </label>
+                  <button type="button" class="btn btn--sm btn--ghost-danger" id="btnRemovePhoto">
+                    <span data-icon="trash"></span> Remove
+                  </button>
+                </div>
+                <p>JPG, PNG, WEBP or GIF · max 8 MB. You can also drag &amp; drop an image here.<br />The photo is optimized and saved in your browser (Base64).</p>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Part 1: Información personal (se genera con JS) -->
+          <fieldset>
+            <legend>Part 1 · Personal Information</legend>
+            <div class="form-grid" id="personalFields"></div>
+          </fieldset>
+        </div>
+
+        <div id="modalSectionInterests">
+          <!-- Part 3: Intereses (se genera con JS) -->
+          <fieldset>
+            <legend>Part 3 · My Interests &amp; Likes (complete sentences in English)</legend>
+            <div class="form-grid" id="interestFields"></div>
+          </fieldset>
+        </div>
+      </div>
+
+      <div class="modal__foot">
+        <button type="button" class="btn" id="btnCancel">Cancel</button>
+        <button type="submit" class="btn btn--primary"><span data-icon="save"></span> Guardar Cambios</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Contenedor de notificaciones accesible -->
+  <div class="toast-stack" id="toastStack" role="status" aria-live="polite"></div>
+
+  <script>
+    'use strict';
+
+    /* =====================================================================
+       1. CONSTANTES Y CONFIGURACIÓN
+       ===================================================================== */
+
+    /** Clave única en localStorage (versionada para futuras migraciones). */
+    const STORAGE_KEY = 'senaConnect.profiles.v3';
+
+    /** Tamaño máximo permitido del archivo original de imagen (8 MB). */
+    const MAX_FILE_BYTES = 8 * 1024 * 1024;
+
+    /** Avatar por defecto (SVG embebido → funciona sin archivos externos). */
+    const DEFAULT_AVATAR = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
+      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#eaf6e1"/><stop offset="1" stop-color="#c6e8b0"/>
+        </linearGradient></defs>
+        <rect width="200" height="200" fill="url(#g)"/>
+        <circle cx="100" cy="80" r="36" fill="#39A900"/>
+        <path d="M28 196c6-42 38-66 72-66s66 24 72 66z" fill="#39A900"/>
+      </svg>`
+    );
+
+    /** Iconos SVG en línea (estilo "outline", sin dependencias externas). */
+    const ICONS = {
+      user: '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+      calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+      briefcase: '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+      mapPin: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
+      sex: '<circle cx="12" cy="9" r="5"/><path d="M12 14v8M9 19h6"/>',
+      phone: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>',
+      mail: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
+      globe: '<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+      edit: '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+      save: '<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/>',
+      reset: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>',
+      print: '<path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>',
+      camera: '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>',
+      close: '<path d="M18 6 6 18M6 6l12 12"/>',
+      trash: '<path d="M3 6h18M8 6V4h8v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>',
+      id: '<rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2.5"/><path d="M14 10h5M14 14h3"/>',
+      building: '<path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M14 9h1M9 13h1M14 13h1M9 17h1M14 17h1"/>',
+      check: '<path d="M20 6 9 17l-5-5"/>',
+      alert: '<circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>',
+      // Iconos de intereses
+      studies: '<path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>',
+      music: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+      movies: '<rect x="2" y="2" width="20" height="20" rx="2.5"/><path d="M7 2v20M17 2v20M2 12h20M2 7h5M2 17h5M17 17h5M17 7h5"/>',
+      tv: '<rect x="2" y="7" width="20" height="15" rx="2"/><path d="m17 2-5 5-5-5"/>',
+      sports: '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22M18 2H6v7a6 6 0 0 0 12 0V2z"/>',
+      food: '<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/>',
+      drinks: '<path d="M17 8h1a4 4 0 1 1 0 8h-1M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><path d="M6 2v2M10 2v2M14 2v2"/>',
+      books: '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>',
+      hobbies: '<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/>'
+    };
+
+    /** Campos de la Parte 1 (se usan para la vista y para el formulario). */
+    const PERSONAL_FIELDS = [
+      { key: 'fullName',   label: 'Name',          es: 'Nombre completo',   icon: 'user',      type: 'text',   required: true, maxlength: 70 },
+      { key: 'age',        label: 'Age',           es: 'Edad',              icon: 'calendar',  type: 'number', required: true, min: 14, max: 99 },
+      { key: 'occupation', label: 'Occupation',    es: 'Ocupación / Carrera', icon: 'briefcase', type: 'text', required: true, maxlength: 90 },
+      { key: 'hometown',   label: 'Hometown',      es: 'Ciudad de origen',  icon: 'mapPin',    type: 'text',   required: true, maxlength: 70 },
+      { key: 'sex',        label: 'Sex',           es: 'Sexo / Género',     icon: 'sex',       type: 'select', options: ['Female', 'Male', 'Non-binary', 'Prefer not to say'] },
+      { key: 'phone',      label: 'Phone number',  es: 'Número telefónico', icon: 'phone',     type: 'tel',    maxlength: 20, pattern: '[0-9 \\+\\-\\(\\)]{7,20}' },
+      { key: 'email',      label: 'Email address', es: 'Correo electrónico', icon: 'mail',     type: 'email',  required: true, maxlength: 90 },
+      { key: 'languages',  label: 'Languages',     es: 'Idiomas (separados por coma)', icon: 'globe', type: 'text', maxlength: 120 }
+    ];
+
+    /** Categorías de la Parte 3 (intereses). */
+    const INTERESTS = [
+      { key: 'studies', label: 'Studies',         es: 'Estudios',              icon: 'studies', placeholder: 'I am studying… I chose this program because…' },
+      { key: 'music',   label: 'Music',           es: 'Música',                icon: 'music',   placeholder: 'I usually listen to… when I am…' },
+      { key: 'movies',  label: 'Movies',          es: 'Películas',             icon: 'movies',  placeholder: 'My favorite movie is… because…' },
+      { key: 'tvShows', label: 'TV shows',        es: 'Series / Programas',    icon: 'tv',      placeholder: 'I like watching… on weekends.' },
+      { key: 'sports',  label: 'Sports',          es: 'Deportes',              icon: 'sports',  placeholder: 'I play… twice a week with my friends.' },
+      { key: 'food',    label: 'Food',            es: 'Comida',                icon: 'food',    placeholder: 'My favorite food is… I usually eat it…' },
+      { key: 'drinks',  label: 'Drinks',          es: 'Bebidas',               icon: 'drinks',  placeholder: 'I love drinking… in the morning.' },
+      { key: 'books',   label: 'Books',           es: 'Libros',                icon: 'books',   placeholder: 'I am reading… It is about…' },
+      { key: 'hobbies', label: 'Hobbies / Etc.',  es: 'Pasatiempos / Otros',   icon: 'hobbies', placeholder: 'In my free time I like to…' }
+    ];
+
+    /** Texto y color para cada estado del badge. */
+    const STATUS_INFO = {
+      online: { text: 'Available', color: '#12b76a' },
+      busy:   { text: 'Busy',      color: '#d92d20' },
+      away:   { text: 'Away',      color: '#f79009' }
+    };
+
+    /**
+     * Datos base de los 2 perfiles (se usan si localStorage está vacío
+     * o al pulsar "Restablecer Datos" sobre el perfil activo).
+     */
+    const DEFAULT_PROFILES = [
+      {
+        id: 'p1',
+        fullName: 'Santiago Grijalba Cárdenas',
+        age: 22,
+        occupation: 'ADSO Apprentice',
+        hometown: 'Fresno - Tolima',
+        sex: 'Male',
+        phone: '3188520999',
+        email: 'santigrijalba007@gmail.com',
+        languages: 'Spanish (native), English (A2)',
+        institution: 'Regional Tolima',
+        ficha: 'ADSO',
+        status: 'online',
+        photo: null,
+        updatedAt: null,
+        interests: {
+          studies: 'I am studying Software Analysis and Development (ADSO) at SENA. I chose this program because I really like solving problems with technological tools.',
+          music: 'I usually listen to pop music like Coldplay, and I also enjoy rock bands like Linkin Park and Imagine Dragons.',
+          movies: 'My favorite movie is "The Lord of the Rings" because I love its epic story, adventure and fantasy world.',
+          tvShows: 'I really like watching "Dragon Ball Z" in my free time because it is my favorite anime from childhood.',
+          sports: 'I like playing and watching soccer on weekends with my friends.',
+          food: 'My favorite food is pizza, especially when I share it with my friends or family on weekends.',
+          drinks: 'I love drinking a hot cup of coffee in the morning and also while I am coding.',
+          books: 'I enjoy reading science fiction books about the future, space and new technologies.',
+          hobbies: 'In my free time, I like playing video games on my computer to relax after studying.'
+        }
+      },
+      {
+        id: 'p2',
+        fullName: 'Diana Carolina Peña Rodríguez',
+        age: 18,
+        occupation: 'ADSO Apprentice',
+        hometown: 'Líbano - Tolima',
+        sex: 'Female',
+        phone: '3202973552',
+        email: 'dianacarolinapenarodrguez@gmail.com',
+        languages: 'Spanish (native), English (A2)',
+        institution: 'Regional Tolima',
+        ficha: 'ADSO',
+        status: 'online',
+        photo: null,
+        updatedAt: null,
+        interests: {
+          studies: 'I am studying Software Analysis and Development (ADSO) at SENA because I want to learn programming and build my professional future.',
+          music: 'I love listening to K-pop music every day, and my favorite group is BTS because their songs are very inspiring.',
+          movies: 'My favorite movies are the "X-Men" films because I really like superhero stories and special powers.',
+          tvShows: 'I like watching the anime "Naruto" in my free time because the characters and battles are amazing.',
+          sports: 'My favorite sport is swimming because it is very fun, refreshing and good for my health.',
+          food: 'My favorite food is traditional Colombian beans with rice, plantain and avocado.',
+          drinks: 'I really enjoy drinking cold mango juice, especially on sunny days.',
+          books: 'I like reading short stories and youth novels in my free time because they are easy and entertaining.',
+          hobbies: 'In my free time, I love listening to music, dancing, singing my favorite songs and eating delicious food.'
+        }
+      }
+    ];
+
+    /* =====================================================================
+       2. UTILIDADES
+       ===================================================================== */
+
+    /** Atajo para querySelector. */
+    const $ = (sel, ctx = document) => ctx.querySelector(sel);
+
+    /** Devuelve el markup SVG de un icono por nombre. */
+    const icon = (name, cls = '') =>
+      `<svg class="icon ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name] || ''}</svg>`;
+
+    /** Clon profundo simple (los datos son JSON puro). */
+    const clone = (obj) => JSON.parse(JSON.stringify(obj));
+
+    /** Crea un elemento con clase y texto de forma segura (sin innerHTML → evita XSS). */
+    function el(tag, className, text) {
+      const node = document.createElement(tag);
+      if (className) node.className = className;
+      if (text !== undefined && text !== null) node.textContent = text;
+      return node;
+    }
+
+    /** Cuenta palabras de un texto. */
+    const countWords = (txt) => (txt.trim().match(/\S+/g) || []).length;
+
+    /** Divide la cadena de idiomas en una lista limpia. */
+    const parseLanguages = (txt) => (txt || '').split(/[,;\n]/).map(s => s.trim()).filter(Boolean);
+
+    /** Reemplaza los <span data-icon="..."> estáticos del HTML por SVG. */
+    function hydrateIcons(root = document) {
+      root.querySelectorAll('[data-icon]').forEach(span => {
+        span.outerHTML = icon(span.dataset.icon);
+      });
+    }
+
+    /** Muestra una notificación temporal (toast). */
+    function toast(message, type = 'info', duration = 3200) {
+      const t = el('div', `toast toast--${type}`);
+      t.innerHTML = icon(type === 'error' ? 'alert' : 'check');
+      t.append(el('span', '', message));
+      $('#toastStack').append(t);
+      setTimeout(() => {
+        t.classList.add('is-leaving');
+        t.addEventListener('animationend', () => t.remove(), { once: true });
+      }, duration);
+    }
+
+    /* =====================================================================
+       3. PERSISTENCIA (localStorage)
+       ===================================================================== */
+
+    /** Devuelve una copia de los datos base de un perfil por su id. */
+    const defaultFor = (id) => clone(DEFAULT_PROFILES.find(p => p.id === id) || DEFAULT_PROFILES[0]);
+
+    /** Fusiona un perfil guardado con sus valores base (por si faltan campos). */
+    function mergeProfile(id, saved = {}) {
+      const base = defaultFor(id);
+      return { ...base, ...saved, id, interests: { ...base.interests, ...(saved.interests || {}) } };
+    }
+
+    /**
+     * Carga todos los perfiles desde localStorage.
+     * Estructura: { activeId: 'p1', profiles: { p1: {...}, p2: {...} } }
+     */
+    function loadStore() {
+      const store = { activeId: DEFAULT_PROFILES[0].id, profiles: {} };
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || {};
+        DEFAULT_PROFILES.forEach(({ id }) => {
+          store.profiles[id] = mergeProfile(id, (saved.profiles || {})[id]);
+        });
+        if (saved.activeId && store.profiles[saved.activeId]) store.activeId = saved.activeId;
+      } catch (err) {
+        console.warn('Could not read saved profiles. Using defaults.', err);
+        DEFAULT_PROFILES.forEach(({ id }) => { store.profiles[id] = defaultFor(id); });
+      }
+      return store;
+    }
+
+    /** Escribe el objeto completo de perfiles en localStorage. */
+    function writeStore(nextStore) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(nextStore));
+        return true;
+      } catch (err) {
+        console.error(err);
+        const quota = err && (err.name === 'QuotaExceededError' || err.code === 22);
+        toast(quota
+          ? 'Storage is full. Try a smaller photo. (Almacenamiento lleno)'
+          : 'Could not save your data in this browser.', 'error', 5000);
+        return false;
+      }
+    }
+
+    /** Guarda un perfil (el activo) dentro del almacén. Devuelve true si tuvo éxito. */
+    function saveProfile(profile) {
+      profile.updatedAt = new Date().toISOString();
+      const nextStore = { ...store, profiles: { ...store.profiles, [profile.id]: profile } };
+      if (!writeStore(nextStore)) return false;
+      store = nextStore;
+      return true;
+    }
+
+    /* =====================================================================
+       4. MANEJO DE IMÁGENES (archivo → Base64 optimizado)
+       ===================================================================== */
+
+    /**
+     * Lee un archivo de imagen, lo redimensiona con <canvas> y lo devuelve como
+     * Base64 (JPEG). Así la foto ocupa poco espacio en localStorage (~5 MB máx).
+     */
+    function fileToOptimizedBase64(file, maxSize = 480, quality = 0.85) {
+      return new Promise((resolve, reject) => {
+        if (!file || !file.type.startsWith('image/')) {
+          reject(new Error('Please select a valid image file.'));
+          return;
+        }
+        if (file.size > MAX_FILE_BYTES) {
+          reject(new Error('The image is too large (max 8 MB).'));
+          return;
+        }
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error('Could not read the file.'));
+        reader.onload = () => {
+          const img = new Image();
+          img.onerror = () => reject(new Error('The file is not a valid image.'));
+          img.onload = () => {
+            const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
+            const w = Math.max(1, Math.round(img.width * scale));
+            const h = Math.max(1, Math.round(img.height * scale));
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';           // fondo blanco para PNG transparentes
+            ctx.fillRect(0, 0, w, h);
+            ctx.drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    /* =====================================================================
+       5. ESTADO DE LA APLICACIÓN
+       ===================================================================== */
+    /** Almacén con los 2 perfiles y el perfil activo. */
+    let store = loadStore();
+    /** Perfil que se está mostrando/editando actualmente. */
+    let state = store.profiles[store.activeId];
+    /** Foto temporal dentro del modal: undefined = sin cambios, null = eliminada. */
+    let pendingPhoto;
+
+    /** Cambia el perfil activo y lo recuerda en localStorage. */
+    function switchProfile(id) {
+      if (!store.profiles[id] || id === store.activeId) return;
+      const modal = $('#editModal');
+      if (modal.open) modal.close();
+      store = { ...store, activeId: id };
+      state = store.profiles[id];
+      writeStore(store);
+      render();
+      toast(`Now viewing: ${state.fullName} (Perfil cambiado)`);
+    }
+
+    /* =====================================================================
+       6. RENDER (Modo Vista / Infografía)
+       ===================================================================== */
+
+    /** Botones del selector de perfiles (foto + nombre + ocupación). */
+    function renderSwitcher() {
+      const wrap = $('#profileSwitcher');
+      wrap.replaceChildren();
+      DEFAULT_PROFILES.forEach(({ id }) => {
+        const p = store.profiles[id];
+        const btn = el('button', 'profile-tab');
+        btn.type = 'button';
+        btn.setAttribute('aria-pressed', String(id === store.activeId));
+        const img = el('img');
+        img.src = p.photo || DEFAULT_AVATAR;
+        img.alt = '';
+        const txt = el('span');
+        txt.append(el('strong', '', p.fullName || 'Unnamed profile'), el('small', '', p.occupation || ''));
+        btn.append(img, txt);
+        btn.addEventListener('click', () => switchProfile(id));
+        wrap.append(btn);
+      });
+    }
+
+    function render() {
+      const p = state;
+      const status = STATUS_INFO[p.status] || STATUS_INFO.online;
+      const firstName = (p.fullName || '').trim().split(/\s+/)[0] || 'there';
+
+      renderSwitcher();
+      // Header institucional
+      $('#chipName').textContent = p.fullName || '—';
+      $('#chipInstitution').textContent = p.institution || '—';
+      $('#chipFicha').textContent = p.ficha || '—';
+      document.title = `${p.fullName || 'Profile'} · SENA Connect`;
+
+      // Foto + estado
+      const avatar = $('#avatarImg');
+      avatar.src = p.photo || DEFAULT_AVATAR;
+      avatar.alt = `Profile photo of ${p.fullName || 'the apprentice'}`;
+      const badge = $('#statusBadge');
+      badge.className = `status-badge is-${p.status in STATUS_INFO ? p.status : 'online'}`;
+      badge.setAttribute('aria-label', `Status: ${status.text}`);
+      $('#statusDot').style.background = status.color;
+      $('#statusText').textContent = status.text;
+
+      // Encabezado de la tarjeta
+      $('#profileName').textContent = p.fullName || 'Your Name';
+      $('#profileOccupation').textContent = p.occupation || '';
+      $('#welcomeTitle').textContent = `Hello, I'm ${firstName}! Welcome to my profile.`;
+
+      // Estadísticas rápidas
+      const langs = parseLanguages(p.languages);
+      const filledInterests = INTERESTS.filter(i => (p.interests[i.key] || '').trim()).length;
+      $('#statAge').textContent = p.age || '—';
+      $('#statLangs').textContent = langs.length;
+      $('#statInterests').textContent = `${filledInterests}/${INTERESTS.length}`;
+
+      renderPersonalInfo(p, langs);
+      renderInterests(p);
+
+      // Fecha de última actualización
+      $('#lastUpdated').textContent = p.updatedAt
+        ? `Last saved: ${new Date(p.updatedAt).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })} · SENA Connect`
+        : 'Sample data · Click "Editar Perfil" to personalize your profile.';
+    }
+
+    /** Part 1: lista de información personal. */
+    function renderPersonalInfo(p, langs) {
+      const list = $('#personalList');
+      list.replaceChildren();
+
+      PERSONAL_FIELDS.forEach(f => {
+        const li = el('li', 'info-item');
+        const ic = el('div', 'info-item__icon');
+        ic.innerHTML = icon(f.icon);
+
+        const box = el('div');
+        box.append(el('div', 'info-item__label', f.label));
+        const value = el('div', 'info-item__value');
+        const raw = p[f.key];
+
+        if (f.key === 'languages' && langs.length) {
+          // Idiomas como "pills"
+          const pills = el('div', 'pill-list');
+          langs.forEach(l => pills.append(el('span', 'pill', l)));
+          value.append(pills);
+        } else if (f.key === 'email' && raw) {
+          const a = el('a', '', raw);
+          a.href = `mailto:${raw}`;
+          value.append(a);
+        } else if (f.key === 'phone' && raw) {
+          const a = el('a', '', raw);
+          a.href = `tel:${String(raw).replace(/[^+\d]/g, '')}`;
+          value.append(a);
+        } else if (f.key === 'age' && raw) {
+          value.textContent = `${raw} years old`;
+        } else {
+          value.textContent = raw || '—';
+        }
+
+        box.append(value);
+        li.append(ic, box);
+        list.append(li);
+      });
+    }
+
+    /** Part 3: tarjetas de intereses. */
+    function renderInterests(p) {
+      const grid = $('#interestsGrid');
+      grid.replaceChildren();
+
+      INTERESTS.forEach(cat => {
+        const text = (p.interests[cat.key] || '').trim();
+        const card = el('article', 'interest');
+
+        const head = el('div', 'interest__head');
+        const ic = el('div', 'interest__icon');
+        ic.innerHTML = icon(cat.icon);
+        const titles = el('div');
+        titles.append(el('h3', 'interest__title', cat.label), el('div', 'interest__es', cat.es));
+        head.append(ic, titles);
+
+        const para = el('p', 'interest__text' + (text ? '' : ' is-empty'),
+          text || 'Not added yet. Click "Editar Perfil" to write about it.');
+
+        const foot = el('div', 'interest__foot');
+        foot.append(el('span', '', text ? `${countWords(text)} words` : ''));
+        const editBtn = el('button', 'interest__edit');
+        editBtn.type = 'button';
+        editBtn.innerHTML = icon('edit');
+        editBtn.append(' Edit');
+        editBtn.setAttribute('aria-label', `Edit ${cat.label}`);
+        editBtn.addEventListener('click', () => openEditor('interests', `f-int-${cat.key}`));
+        foot.append(editBtn);
+
+        card.append(head, para, foot);
+        grid.append(card);
+      });
+    }
+
+    /* =====================================================================
+       7. FORMULARIO (Modo Edición)
+       ===================================================================== */
+
+    /** Construye dinámicamente los campos del formulario (una sola vez). */
+    function buildForm() {
+      // Part 1: información personal
+      const pWrap = $('#personalFields');
+      PERSONAL_FIELDS.forEach(f => {
+        const field = el('div', 'field');
+        const id = `f-${f.key}`;
+        const label = el('label', '', f.label + ' ');
+        label.htmlFor = id;
+        label.append(el('small', '', `(${f.es})`));
+
+        let input;
+        if (f.type === 'select') {
+          input = el('select');
+          f.options.forEach(o => {
+            const opt = el('option', '', o);
+            opt.value = o;
+            input.append(opt);
+          });
+        } else {
+          input = el('input');
+          input.type = f.type;
+          if (f.maxlength) input.maxLength = f.maxlength;
+          if (f.min !== undefined) input.min = f.min;
+          if (f.max !== undefined) input.max = f.max;
+          if (f.pattern) input.pattern = f.pattern;
+          if (f.type === 'email') input.autocomplete = 'email';
+          if (f.type === 'tel') input.autocomplete = 'tel';
+        }
+        input.id = id;
+        input.name = f.key;
+        if (f.required) input.required = true;
+
+        field.append(label, input);
+        if (f.key === 'fullName' || f.key === 'occupation' || f.key === 'languages') field.classList.add('field--full');
+        pWrap.append(field);
+      });
+
+      // Part 3: intereses (textareas con contador de palabras)
+      const iWrap = $('#interestFields');
+      INTERESTS.forEach(cat => {
+        const field = el('div', 'field');
+        const id = `f-int-${cat.key}`;
+        const label = el('label');
+        label.htmlFor = id;
+        label.innerHTML = icon(cat.icon);
+        label.querySelector('svg').style.color = 'var(--sena-green-dark)';
+        label.append(` ${cat.label} `, el('small', '', `(${cat.es})`));
+
+        const ta = el('textarea');
+        ta.id = id;
+        ta.name = `interest:${cat.key}`;
+        ta.rows = 3;
+        ta.maxLength = 400;
+        ta.placeholder = cat.placeholder;
+
+        const hint = el('div', 'hint');
+        const msg = el('span');
+        const counter = el('span');
+        hint.append(msg, counter);
+
+        // Retroalimentación: anima a escribir oraciones completas
+        const update = () => {
+          const words = countWords(ta.value);
+          counter.textContent = `${ta.value.length}/400`;
+          hint.classList.remove('is-warn', 'is-ok');
+          if (!words) {
+            msg.textContent = 'Write a complete sentence in English.';
+          } else if (words < 6) {
+            msg.textContent = `${words} words · Try a longer, complete sentence.`;
+            hint.classList.add('is-warn');
+          } else {
+            msg.textContent = `${words} words · Great sentence!`;
+            hint.classList.add('is-ok');
+          }
+        };
+        ta.addEventListener('input', update);
+        ta._updateHint = update;
+
+        field.append(label, ta, hint);
+        iWrap.append(field);
+      });
+    }
+
+    /** Rellena el formulario con el estado actual. */
+    function fillForm(p) {
+      const form = $('#profileForm');
+      PERSONAL_FIELDS.forEach(f => { form.elements[f.key].value = p[f.key] ?? ''; });
+      form.elements.institution.value = p.institution || '';
+      form.elements.ficha.value = p.ficha || '';
+      form.elements.status.value = p.status in STATUS_INFO ? p.status : 'online';
+      INTERESTS.forEach(cat => {
+        const ta = form.elements[`interest:${cat.key}`];
+        ta.value = p.interests[cat.key] || '';
+        ta._updateHint();
+      });
+      pendingPhoto = undefined;
+      $('#photoPreview').src = p.photo || DEFAULT_AVATAR;
+    }
+
+    /** Lee los valores del formulario y devuelve un nuevo objeto de perfil. */
+    function readForm() {
+      const form = $('#profileForm');
+      const next = clone(state);
+      PERSONAL_FIELDS.forEach(f => {
+        const v = form.elements[f.key].value.trim();
+        next[f.key] = f.type === 'number' ? (v ? Number(v) : '') : v;
+      });
+      next.institution = form.elements.institution.value.trim();
+      next.ficha = form.elements.ficha.value.trim();
+      next.status = form.elements.status.value;
+      INTERESTS.forEach(cat => {
+        next.interests[cat.key] = form.elements[`interest:${cat.key}`].value.trim();
+      });
+      if (pendingPhoto !== undefined) next.photo = pendingPhoto;
+      return next;
+    }
+
+    /**
+     * Abre el modal de edición mostrando SOLO la sección elegida:
+     * - mode = 'profile'   → datos de la barra lateral (foto, SENA, información personal)
+     * - mode = 'interests' → tarjetas de My Interests & Likes
+     */
+    function openEditor(mode = 'profile', focusId) {
+      const modal = $('#editModal');
+      const secProfile = $('#modalSectionProfile');
+      const secInterests = $('#modalSectionInterests');
+      const isInterests = mode === 'interests';
+
+      fillForm(state);
+
+      // Mostrar únicamente la sección solicitada y deshabilitar la otra para la validación
+      secProfile.hidden = isInterests;
+      secProfile.style.display = isInterests ? 'none' : 'grid';
+      secInterests.hidden = !isInterests;
+      secInterests.style.display = isInterests ? 'block' : 'none';
+      secProfile.querySelectorAll('input, select, textarea').forEach(i => { i.disabled = isInterests; });
+      secInterests.querySelectorAll('input, select, textarea').forEach(i => { i.disabled = !isInterests; });
+
+      $('#modalTitle').textContent = isInterests
+        ? 'Edit My Interests & Likes'
+        : 'Editar Perfil · Personal Information';
+
+      if (!modal.open) modal.showModal();
+      const defaultFocus = isInterests ? `#f-int-${INTERESTS[0].key}` : '#f-fullName';
+      const target = focusId ? document.getElementById(focusId) : $(defaultFocus);
+      if (target) {
+        target.focus();
+        target.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      }
+    }
+
+    /** Cierra el modal (pidiendo confirmación si hay cambios sin guardar). */
+    function closeEditor(force = false) {
+      const modal = $('#editModal');
+      if (!modal.open) return;
+      if (!force && hasUnsavedChanges() && !confirm('You have unsaved changes. Close anyway?\n(Tienes cambios sin guardar. ¿Cerrar de todos modos?)')) return;
+      modal.close();
+    }
+
+    /** Compara el formulario con el estado guardado. */
+    function hasUnsavedChanges() {
+      const a = readForm(); const b = clone(state);
+      delete a.updatedAt; delete b.updatedAt;
+      return JSON.stringify(a) !== JSON.stringify(b);
+    }
+
+    /** Valida y guarda el formulario. */
+    function submitForm() {
+      const form = $('#profileForm');
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        toast('Please check the highlighted fields. (Revisa los campos)', 'error');
+        return;
+      }
+      const next = readForm();
+      if (saveProfile(next)) {
+        state = next;
+        render();
+        closeEditor(true);
+        toast('Profile saved successfully! (Perfil guardado)', 'success');
+      }
+    }
+
+    /** Procesa una imagen seleccionada dentro del modal. */
+    async function handleModalPhoto(file) {
+      try {
+        pendingPhoto = await fileToOptimizedBase64(file);
+        $('#photoPreview').src = pendingPhoto;
+        toast('Photo ready. Click "Guardar Cambios" to save it.');
+      } catch (err) {
+        toast(err.message, 'error');
+      }
+    }
+
+    /* =====================================================================
+       8. EVENTOS
+       ===================================================================== */
+    function bindEvents() {
+      const modal = $('#editModal');
+      const form = $('#profileForm');
+
+      // --- Botones de edición independientes ---
+      $('#btnEditProfile').addEventListener('click', () => openEditor('profile'));
+      $('#btnEditInterests').addEventListener('click', () => openEditor('interests'));
+
+      // --- Modal ---
+      form.addEventListener('submit', (e) => { e.preventDefault(); submitForm(); });
+      $('#btnCloseModal').addEventListener('click', () => closeEditor());
+      $('#btnCancel').addEventListener('click', () => closeEditor());
+      // Tecla Escape → pedir confirmación si hay cambios
+      modal.addEventListener('cancel', (e) => { e.preventDefault(); closeEditor(); });
+      // Clic fuera del contenido (sobre el backdrop) → cerrar
+      modal.addEventListener('click', (e) => { if (e.target === modal) closeEditor(); });
+
+      // --- Foto dentro del modal ---
+      $('#photoInput').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) handleModalPhoto(file);
+        e.target.value = '';                 // permite volver a elegir el mismo archivo
+      });
+      $('#btnRemovePhoto').addEventListener('click', () => {
+        pendingPhoto = null;
+        $('#photoPreview').src = DEFAULT_AVATAR;
+      });
+
+      // Arrastrar y soltar imagen
+      const dz = $('#dropzone');
+      ['dragenter', 'dragover'].forEach(ev => dz.addEventListener(ev, (e) => { e.preventDefault(); dz.classList.add('is-drag'); }));
+      ['dragleave', 'drop'].forEach(ev => dz.addEventListener(ev, (e) => { e.preventDefault(); dz.classList.remove('is-drag'); }));
+      dz.addEventListener('drop', (e) => {
+        const file = e.dataTransfer.files[0];
+        if (file) handleModalPhoto(file);
+      });
+
+      // --- Cambio rápido de foto desde el avatar (se guarda al instante) ---
+      $('#quickPhotoInput').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        e.target.value = '';
+        if (!file) return;
+        try {
+          const photo = await fileToOptimizedBase64(file);
+          const next = { ...clone(state), photo };
+          if (saveProfile(next)) {
+            state = next;
+            render();
+            toast('Profile photo updated! (Foto actualizada)', 'success');
+          }
+        } catch (err) {
+          toast(err.message, 'error');
+        }
+      });
+
+      // Atajo de teclado: Ctrl/Cmd + S para guardar cuando el modal está abierto
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's' && modal.open) {
+          e.preventDefault();
+          submitForm();
+        }
+      });
+
+      // Sincroniza si el perfil cambia en otra pestaña
+      window.addEventListener('storage', (e) => {
+        if (e.key === STORAGE_KEY) {
+          store = loadStore();
+          state = store.profiles[store.activeId];
+          render();
+        }
+      });
+    }
+
+    /* =====================================================================
+       9. INICIALIZACIÓN
+       ===================================================================== */
+    document.addEventListener('DOMContentLoaded', () => {
+      hydrateIcons();
+      buildForm();
+      bindEvents();
+      render();
+    });
+  </script>
+</body>
+</html>
