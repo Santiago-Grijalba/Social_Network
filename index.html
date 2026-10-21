@@ -8,7 +8,7 @@
   <title>SENA Connect · My Social Network</title>
 
   <!-- Favicon inline (SVG) para no depender de archivos externos -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2339A900'/%3E%3Ctext x='50%25' y='58%25' font-size='30' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'%3ESC%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23121214'/%3E%3Ctext x='50%25' y='58%25' font-size='30' font-family='Arial' font-weight='bold' fill='%2339A900' text-anchor='middle'%3ESC%3C/text%3E%3C/svg%3E" />
 
   <!-- Tipografía moderna (si no hay internet, se usa la fuente del sistema) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,27 +17,29 @@
 
   <style>
     /* =====================================================================
-       1. VARIABLES DE DISEÑO (paleta institucional SENA + tokens)
+       1. VARIABLES DE DISEÑO (fondo negro, tarjetas grises, detalles blanco y verde)
        ===================================================================== */
     :root {
       --sena-green: #39A900;
-      --sena-green-dark: #2b7f00;
-      --sena-green-soft: #eaf6e1;
-      --navy: #00304D;
-      --navy-2: #0b4a6f;
-      --bg: #f2f5f8;
-      --surface: #ffffff;
-      --text: #1d2939;
-      --muted: #667085;
-      --border: #e4e7ec;
-      --danger: #d92d20;
-      --warning: #f79009;
+      --sena-green-dark: #2f8e00;
+      --sena-green-soft: rgba(57, 169, 0, 0.16);
+      --navy: #ffffff;
+      --navy-2: #e4e4e7;
+      --bg: #09090b;             /* Fondo negro profundo */
+      --surface: #18181b;        /* Tarjetas / contenedores gris oscuro */
+      --surface-2: #27272a;      /* Gris secundario para elementos internos / inputs */
+      --text: #f4f4f5;           /* Texto principal blanco / claro */
+      --muted: #a1a1aa;          /* Texto secundario gris medio */
+      --border: #27272a;         /* Bordes gris oscuro */
+      --border-focus: #3f3f46;
+      --danger: #71717a;
+      --warning: #a1a1aa;
       --radius-lg: 20px;
       --radius-md: 14px;
       --radius-sm: 10px;
-      --shadow-sm: 0 1px 2px rgba(16, 24, 40, .06), 0 1px 3px rgba(16, 24, 40, .08);
-      --shadow-md: 0 8px 24px -6px rgba(16, 24, 40, .12);
-      --shadow-lg: 0 24px 48px -12px rgba(16, 24, 40, .25);
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, .4);
+      --shadow-md: 0 8px 24px -6px rgba(0, 0, 0, .6);
+      --shadow-lg: 0 24px 48px -12px rgba(0, 0, 0, .8);
       --font-head: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
       --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
       --header-h: 72px;
@@ -71,7 +73,7 @@
        ===================================================================== */
     .topbar {
       position: sticky; top: 0; z-index: 50;
-      background: rgba(255, 255, 255, .88);
+      background: rgba(24, 24, 27, .92);
       backdrop-filter: saturate(180%) blur(12px);
       -webkit-backdrop-filter: saturate(180%) blur(12px);
       border-bottom: 1px solid var(--border);
@@ -84,12 +86,13 @@
     .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
     .brand__logo {
       width: 44px; height: 44px; border-radius: 12px;
-      background: linear-gradient(135deg, var(--sena-green), var(--sena-green-dark));
-      color: #fff; display: grid; place-items: center;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--sena-green); display: grid; place-items: center;
       font-family: var(--font-head); font-weight: 700; font-size: 1.05rem;
-      box-shadow: 0 6px 14px -4px rgba(57, 169, 0, .55);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .4);
     }
-    .brand__name { font-family: var(--font-head); font-weight: 700; font-size: 1.2rem; color: var(--navy); }
+    .brand__name { font-family: var(--font-head); font-weight: 700; font-size: 1.2rem; color: #ffffff; }
     .brand__name span { color: var(--sena-green); }
     .brand__tag { display: block; font-size: .75rem; color: var(--muted); font-weight: 500; }
 
@@ -98,11 +101,11 @@
     .chip {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 6px 12px; border-radius: 999px;
-      background: var(--bg); border: 1px solid var(--border);
-      font-size: .82rem; white-space: nowrap; max-width: 280px;
+      background: var(--surface-2); border: 1px solid var(--border);
+      font-size: .82rem; white-space: nowrap; max-width: 280px; color: var(--text);
     }
     .chip b { color: var(--muted); font-weight: 600; }
-    .chip span { overflow: hidden; text-overflow: ellipsis; font-weight: 600; color: var(--navy); }
+    .chip span { overflow: hidden; text-overflow: ellipsis; font-weight: 600; color: #ffffff; }
     .chip .icon { color: var(--sena-green); }
 
     /* Botones */
@@ -110,18 +113,19 @@
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       padding: 9px 16px; border-radius: var(--radius-sm);
-      border: 1px solid var(--border); background: var(--surface);
+      border: 1px solid var(--border); background: var(--surface-2);
+      color: #ffffff;
       font-weight: 600; font-size: .88rem; cursor: pointer;
       transition: transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s;
     }
-    .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+    .btn:hover { transform: translateY(-1px); border-color: var(--border-focus); background: #323238; }
     .btn:active { transform: translateY(0); }
-    .btn--primary { background: var(--sena-green); border-color: var(--sena-green); color: #fff; }
-    .btn--primary:hover { background: var(--sena-green-dark); }
-    .btn--navy { background: var(--navy); border-color: var(--navy); color: #fff; }
-    .btn--navy:hover { background: var(--navy-2); }
-    .btn--ghost-danger { color: var(--danger); }
-    .btn--ghost-danger:hover { background: #fef3f2; border-color: #fecdca; }
+    .btn--primary { background: var(--sena-green); border-color: var(--sena-green); color: #000000; font-weight: 700; }
+    .btn--primary:hover { background: #44c304; border-color: #44c304; color: #000000; }
+    .btn--navy { background: #000000; border-color: var(--border-focus); color: #ffffff; }
+    .btn--navy:hover { background: #121214; border-color: var(--sena-green); }
+    .btn--ghost-danger { color: var(--muted); background: transparent; }
+    .btn--ghost-danger:hover { background: var(--surface-2); border-color: #ef4444; color: #f87171; }
     .btn--sm { padding: 6px 12px; font-size: .8rem; }
 
     /* =====================================================================
@@ -137,23 +141,24 @@
     .part-label {
       display: inline-flex; align-items: center; gap: 6px;
       font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-      color: var(--sena-green-dark); background: var(--sena-green-soft);
-      padding: 4px 10px; border-radius: 999px;
+      color: var(--sena-green); background: var(--sena-green-soft);
+      padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(57, 169, 0, 0.25);
     }
     .section-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
-    .section-head h2 { font-size: 1.15rem; color: var(--navy); margin-top: 6px; }
+    .section-head h2 { font-size: 1.15rem; color: #ffffff; margin-top: 6px; }
     .section-head p { margin: 2px 0 0; color: var(--muted); font-size: .85rem; }
 
     /* =====================================================================
        5. TARJETA DE PERFIL (Part 1 + Part 2)
        ===================================================================== */
     .profile { overflow: hidden; }
-    /* Portada sobria: un solo color institucional con textura sutil */
+    /* Portada sobria: negro absoluto con textura sutil */
     .profile__cover {
       height: 110px; position: relative;
       background:
-        radial-gradient(circle, rgba(255,255,255,.12) 1.5px, transparent 2px) 0 0 / 20px 20px,
-        var(--navy);
+        radial-gradient(circle, rgba(255,255,255,.08) 1.5px, transparent 2px) 0 0 / 20px 20px,
+        #000000;
+      border-bottom: 1px solid var(--border);
     }
 
     /* Avatar circular + badge de estado */
@@ -161,20 +166,20 @@
     .avatar {
       width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
       border: 5px solid var(--surface);
-      box-shadow: 0 0 0 3px var(--sena-green), var(--shadow-md);
-      background: var(--sena-green-soft);
+      box-shadow: 0 0 0 3px var(--sena-green);
+      background: #000000;
     }
     .status-badge {
       position: absolute; right: 10px; bottom: 10px;
       width: 24px; height: 24px; border-radius: 50%;
       border: 4px solid var(--surface); background: var(--sena-green);
     }
-    .status-badge.is-online { background: #12b76a; }
-    .status-badge.is-busy { background: var(--danger); }
-    .status-badge.is-away { background: var(--warning); }
+    .status-badge.is-online { background: var(--sena-green); }
+    .status-badge.is-busy { background: #52525b; }
+    .status-badge.is-away { background: #a1a1aa; }
     .status-badge.is-online::after {
       content: ''; position: absolute; inset: -4px; border-radius: 50%;
-      border: 2px solid #12b76a; animation: pulse 2s infinite;
+      border: 2px solid var(--sena-green); animation: pulse 2s infinite;
     }
     @keyframes pulse { 0% { transform: scale(1); opacity: .8; } 100% { transform: scale(1.8); opacity: 0; } }
 
@@ -182,14 +187,14 @@
       position: absolute; left: 4px; bottom: 6px;
       width: 36px; height: 36px; border-radius: 50%;
       display: grid; place-items: center; cursor: pointer;
-      background: var(--navy); color: #fff; border: 3px solid var(--surface);
-      transition: transform .15s;
+      background: #000000; color: #fff; border: 3px solid var(--surface);
+      transition: transform .15s, border-color .15s;
     }
-    .avatar-btn:hover { transform: scale(1.08); }
+    .avatar-btn:hover { transform: scale(1.08); border-color: var(--sena-green); }
 
     .profile__body { padding: 14px 24px 24px; text-align: center; }
-    .profile__name { font-size: 1.4rem; color: var(--navy); margin-top: 8px; word-break: break-word; }
-    .profile__occupation { color: var(--sena-green-dark); font-weight: 600; font-size: .92rem; margin: 4px 0 0; }
+    .profile__name { font-size: 1.4rem; color: #ffffff; margin-top: 8px; word-break: break-word; }
+    .profile__occupation { color: var(--sena-green); font-weight: 600; font-size: .92rem; margin: 4px 0 0; }
     .status-text { display: inline-flex; align-items: center; gap: 6px; font-size: .78rem; color: var(--muted); margin-top: 8px; }
     .status-text i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
     .profile__edit-wrap { margin-top: 12px; }
@@ -199,7 +204,7 @@
       margin: 18px 0 4px; padding: 12px 0;
       border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
     }
-    .profile__stats strong { display: block; font-family: var(--font-head); color: var(--navy); font-size: 1.05rem; }
+    .profile__stats strong { display: block; font-family: var(--font-head); color: #ffffff; font-size: 1.05rem; }
     .profile__stats span { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
 
     /* Lista de información personal */
@@ -210,17 +215,17 @@
       display: grid; grid-template-columns: 36px 1fr; gap: 10px; align-items: center;
       padding: 8px; border-radius: var(--radius-sm); transition: background .15s;
     }
-    .info-item:hover { background: var(--bg); }
+    .info-item:hover { background: var(--surface-2); }
     .info-item__icon {
       width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center;
-      background: var(--sena-green-soft); color: var(--sena-green-dark);
+      background: var(--surface-2); color: var(--sena-green); border: 1px solid var(--border);
     }
     .info-item__label { font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; }
-    .info-item__value { font-weight: 500; font-size: .92rem; word-break: break-word; }
-    .info-item__value a { color: var(--navy); text-decoration: none; }
+    .info-item__value { font-weight: 500; font-size: .92rem; word-break: break-word; color: var(--text); }
+    .info-item__value a { color: var(--sena-green); text-decoration: none; }
     .info-item__value a:hover { text-decoration: underline; }
     .pill-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
-    .pill { font-size: .76rem; font-weight: 600; padding: 2px 10px; border-radius: 999px; background: var(--bg); border: 1px solid var(--border); color: var(--navy); }
+    .pill { font-size: .76rem; font-weight: 600; padding: 2px 10px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); color: #ffffff; }
 
     /* =====================================================================
        6. PART 3 - INTERESES (feed de tarjetas)
@@ -228,7 +233,7 @@
     .feed { display: grid; gap: 24px; }
     .welcome { padding: 22px 24px; display: flex; gap: 18px; align-items: center; }
     .welcome__emoji { font-size: 2.2rem; }
-    .welcome h1 { font-size: 1.3rem; color: var(--navy); }
+    .welcome h1 { font-size: 1.3rem; color: #ffffff; }
     .welcome p { margin: 4px 0 0; color: var(--muted); font-size: .9rem; }
 
     /* Selector de perfiles */
@@ -238,21 +243,21 @@
     .profile-tab {
       display: flex; align-items: center; gap: 10px; min-width: 0;
       padding: 6px 14px 6px 6px; border-radius: 999px; cursor: pointer;
-      border: 1px solid var(--border); background: var(--surface); text-align: left;
+      border: 1px solid var(--border); background: var(--surface-2); text-align: left;
       transition: border-color .15s, background .15s, box-shadow .15s;
     }
     .profile-tab:hover { border-color: var(--sena-green); }
-    .profile-tab img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; background: var(--sena-green-soft); }
-    .profile-tab strong { display: block; font-size: .86rem; color: var(--navy); line-height: 1.2; }
+    .profile-tab img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; background: #000; }
+    .profile-tab strong { display: block; font-size: .86rem; color: #ffffff; line-height: 1.2; }
     .profile-tab small { display: block; font-size: .72rem; color: var(--muted); max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .profile-tab[aria-pressed="true"] { border-color: var(--sena-green); background: var(--sena-green-soft); box-shadow: 0 0 0 1px var(--sena-green); }
+    .profile-tab[aria-pressed="true"] { border-color: var(--sena-green); background: rgba(57, 169, 0, 0.12); box-shadow: 0 0 0 1px var(--sena-green); }
 
     .interests { padding: 24px; }
     .interests-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
     /* Tarjetas en un único color de acento (verde SENA) para una paleta sencilla */
     .interest {
       position: relative; padding: 18px; border-radius: var(--radius-md);
-      border: 1px solid var(--border); background: var(--surface);
+      border: 1px solid var(--border); background: var(--surface-2);
       display: flex; flex-direction: column; gap: 10px;
       transition: transform .2s ease, box-shadow .2s ease, border-color .2s;
     }
@@ -260,18 +265,19 @@
     .interest__head { display: flex; align-items: center; gap: 12px; }
     .interest__icon {
       width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
-      color: var(--sena-green-dark); background: var(--sena-green-soft);
+      color: var(--sena-green); background: #121214; border: 1px solid var(--border);
     }
     .interest__icon .icon { width: 22px; height: 22px; }
-    .interest__title { font-size: 1rem; color: var(--navy); }
+    .interest__title { font-size: 1rem; color: #ffffff; }
     .interest__es { font-size: .74rem; color: var(--muted); }
     .interest__text { margin: 0; font-size: .92rem; color: var(--text); }
     .interest__text.is-empty { color: var(--muted); font-style: italic; }
     .interest__foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font-size: .74rem; color: var(--muted); }
     .interest__edit {
-      border: 0; background: none; color: var(--sena-green-dark); font-weight: 600; cursor: pointer;
+      border: 0; background: none; color: var(--sena-green); font-weight: 600; cursor: pointer;
       display: inline-flex; align-items: center; gap: 4px; font-size: .78rem; padding: 4px;
     }
+    .interest__edit:hover { text-decoration: underline; }
 
     .footer-note { text-align: center; color: var(--muted); font-size: .8rem; margin-top: 8px; }
 
@@ -280,10 +286,10 @@
        ===================================================================== */
     .modal {
       width: min(880px, calc(100% - 24px)); max-height: calc(100vh - 32px);
-      padding: 0; border: 0; border-radius: var(--radius-lg);
+      padding: 0; border: 1px solid var(--border); border-radius: var(--radius-lg);
       box-shadow: var(--shadow-lg); background: var(--surface); color: var(--text);
     }
-    .modal::backdrop { background: rgba(0, 48, 77, .55); backdrop-filter: blur(3px); }
+    .modal::backdrop { background: rgba(0, 0, 0, .82); backdrop-filter: blur(4px); }
     .modal[open] { animation: modalIn .25s ease; }
     @keyframes modalIn { from { opacity: 0; transform: translateY(16px) scale(.98); } to { opacity: 1; transform: none; } }
     .modal form { display: flex; flex-direction: column; max-height: calc(100vh - 32px); }
@@ -291,45 +297,45 @@
       display: flex; align-items: center; justify-content: space-between; gap: 12px;
       padding: 18px 24px; border-bottom: 1px solid var(--border);
     }
-    .modal__head h2 { font-size: 1.15rem; color: var(--navy); }
+    .modal__head h2 { font-size: 1.15rem; color: #ffffff; }
     .icon-btn {
       width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--border);
-      background: var(--surface); display: grid; place-items: center; cursor: pointer;
+      background: var(--surface-2); color: var(--text); display: grid; place-items: center; cursor: pointer;
     }
-    .icon-btn:hover { background: var(--bg); }
+    .icon-btn:hover { border-color: var(--sena-green); color: #ffffff; }
     .modal__body { padding: 20px 24px; overflow-y: auto; display: grid; gap: 22px; }
     .modal__foot {
       display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap;
-      padding: 14px 24px; border-top: 1px solid var(--border); background: #fafbfc;
+      padding: 14px 24px; border-top: 1px solid var(--border); background: #121214;
       border-radius: 0 0 var(--radius-lg) var(--radius-lg);
     }
 
-    fieldset { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px 18px 18px; margin: 0; }
-    legend { padding: 0 8px; font-family: var(--font-head); font-weight: 600; color: var(--navy); font-size: .95rem; }
+    fieldset { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px 18px 18px; margin: 0; background: rgba(0,0,0,.2); }
+    legend { padding: 0 8px; font-family: var(--font-head); font-weight: 600; color: #ffffff; font-size: .95rem; }
     .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
     .form-grid--3 { grid-template-columns: repeat(3, 1fr); }
     .field { display: flex; flex-direction: column; gap: 6px; }
     .field--full { grid-column: 1 / -1; }
-    .field label { font-size: .82rem; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 6px; }
+    .field label { font-size: .82rem; font-weight: 600; color: #ffffff; display: flex; align-items: center; gap: 6px; }
     .field label small { color: var(--muted); font-weight: 400; }
     .field input, .field select, .field textarea {
       width: 100%; padding: 10px 12px; border-radius: var(--radius-sm);
-      border: 1px solid #d0d5dd; background: #fff; transition: border-color .15s, box-shadow .15s;
+      border: 1px solid var(--border); background: var(--surface-2); color: #ffffff; transition: border-color .15s, box-shadow .15s;
     }
     .field textarea { resize: vertical; min-height: 78px; line-height: 1.45; }
     .field input:focus, .field select:focus, .field textarea:focus {
-      outline: none; border-color: var(--sena-green); box-shadow: 0 0 0 4px rgba(57, 169, 0, .15);
+      outline: none; border-color: var(--sena-green); box-shadow: 0 0 0 4px rgba(57, 169, 0, .2);
     }
-    .field input:user-invalid, .field textarea:user-invalid { border-color: var(--danger); }
+    .field input:user-invalid, .field textarea:user-invalid { border-color: #ef4444; }
     .hint { font-size: .74rem; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; }
-    .hint.is-warn { color: var(--warning); }
-    .hint.is-ok { color: var(--sena-green-dark); }
+    .hint.is-warn { color: #fbbf24; }
+    .hint.is-ok { color: var(--sena-green); }
 
     /* Subida de foto en el modal */
     .photo-editor { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
     .photo-editor img {
       width: 108px; height: 108px; border-radius: 50%; object-fit: cover;
-      border: 4px solid var(--sena-green-soft); box-shadow: 0 0 0 2px var(--sena-green);
+      border: 4px solid var(--surface-2); box-shadow: 0 0 0 2px var(--sena-green);
     }
     .photo-editor__actions { display: flex; flex-direction: column; gap: 8px; }
     .photo-editor__actions p { margin: 0; font-size: .78rem; color: var(--muted); }
@@ -343,12 +349,13 @@
     .toast-stack { position: fixed; bottom: 20px; right: 20px; display: grid; gap: 10px; z-index: 100; }
     .toast {
       display: flex; align-items: center; gap: 10px; min-width: 240px; max-width: 360px;
-      padding: 12px 16px; border-radius: 12px; background: var(--navy); color: #fff;
+      padding: 12px 16px; border-radius: 12px; background: #000000; color: #fff;
+      border: 1px solid var(--border);
       box-shadow: var(--shadow-lg); font-size: .88rem; font-weight: 500;
       animation: toastIn .3s ease;
     }
-    .toast--success { background: var(--sena-green-dark); }
-    .toast--error { background: var(--danger); }
+    .toast--success { border-color: var(--sena-green); }
+    .toast--error { border-color: #ef4444; }
     .toast.is-leaving { animation: toastOut .3s ease forwards; }
     @keyframes toastIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
     @keyframes toastOut { to { opacity: 0; transform: translateX(30px); } }
@@ -572,8 +579,8 @@
                 <label for="f-status">Status <small>(Estado)</small></label>
                 <select id="f-status" name="status">
                   <option value="online">🟢 Available</option>
-                  <option value="busy">🔴 Busy</option>
-                  <option value="away">🟠 Away</option>
+                  <option value="busy">⚫ Busy</option>
+                  <option value="away">⚪ Away</option>
                 </select>
               </div>
             </div>
@@ -638,15 +645,12 @@
     /** Tamaño máximo permitido del archivo original de imagen (8 MB). */
     const MAX_FILE_BYTES = 8 * 1024 * 1024;
 
-    /** Avatar por defecto (SVG embebido → funciona sin archivos externos). */
+    /** Avatar por defecto (silueta en negro/gris oscuro con fondo negro). */
     const DEFAULT_AVATAR = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
       `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#eaf6e1"/><stop offset="1" stop-color="#c6e8b0"/>
-        </linearGradient></defs>
-        <rect width="200" height="200" fill="url(#g)"/>
-        <circle cx="100" cy="80" r="36" fill="#39A900"/>
-        <path d="M28 196c6-42 38-66 72-66s66 24 72 66z" fill="#39A900"/>
+        <rect width="200" height="200" fill="#09090b"/>
+        <circle cx="100" cy="80" r="36" fill="#27272a"/>
+        <path d="M28 196c6-42 38-66 72-66s66 24 72 66z" fill="#27272a"/>
       </svg>`
     );
 
@@ -708,11 +712,11 @@
       { key: 'hobbies', label: 'Hobbies / Etc.',  es: 'Pasatiempos / Otros',   icon: 'hobbies', placeholder: 'In my free time I like to…' }
     ];
 
-    /** Texto y color para cada estado del badge. */
+    /** Texto y color para cada estado del badge (en la paleta verde / negro / gris). */
     const STATUS_INFO = {
-      online: { text: 'Available', color: '#12b76a' },
-      busy:   { text: 'Busy',      color: '#d92d20' },
-      away:   { text: 'Away',      color: '#f79009' }
+      online: { text: 'Available', color: '#39A900' },
+      busy:   { text: 'Busy',      color: '#18181b' },
+      away:   { text: 'Away',      color: '#a1a1aa' }
     };
 
     /**
